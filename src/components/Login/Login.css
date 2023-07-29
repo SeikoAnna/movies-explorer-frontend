@@ -1,0 +1,135 @@
+.authorization {
+  max-width: 100%;
+  align-items: center;
+  padding: 0 70px 80px;
+  margin: 70px auto 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.authorization__logo {
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.authorization__title {
+  margin: 0 0 40px 0;
+  padding: 0;
+  max-width: 396px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: normal;
+  text-align: left;
+}
+
+.authorization__form {
+  display: flex;
+  flex-direction: column;
+  max-width: 396px;
+  width: 100%;
+}
+
+.authorization__input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.authorization__input-label {
+  margin: 0 0 10px 0;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: normal;
+  color: #a0a0a0;
+}
+
+.authorization__input {
+  margin: 0;
+  border: none;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+  color: #000;
+  padding: 15px 15px;
+}
+
+.authorization__input:focus {
+  outline: none;
+}
+
+.authorization__buttons {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.authorization__button {
+  border-radius: 3px;
+  background: #3ddc84;
+  padding: 14px 0 15px;
+  border: none;
+  color: #fff;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.authorization__text {
+  margin: 16px 0 0;
+  text-align: center;
+  font-weight: 400;
+  line-height: normal;
+  color: #a0a0a0;
+}
+
+.authorization__link {
+  text-decoration: none;
+  color: #2be080;
+  transition: 0.4s;
+}
+
+.authorization__link:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .authorization {
+    margin-top: 232px;
+  }
+
+  .authorization__buttons {
+    margin-top: 150px;
+  }
+
+}
+
+@media screen and (max-width: 320px) {
+  .authorization {
+    margin-top: 56px;
+    padding: 0 30px 80px;
+    align-items: center;
+  }
+
+  .authorization__title {
+    margin: 0 0 80px 0;
+  }
+
+  .authorization__logo {
+    justify-content: center;
+    margin-bottom: 50px;
+  }
+
+  .authorization__buttons {
+    margin-top: 239px;
+    font-size: 12px;
+  }
+
+  .authorization__form {
+    max-width: 260px;
+    width: 100%;
+  }
+
+}

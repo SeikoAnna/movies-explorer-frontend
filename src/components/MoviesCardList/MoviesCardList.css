@@ -1,0 +1,21 @@
+.movies__list__wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.movies__list {
+  list-style-type: none;
+  float: left;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding-left: 0;
+}
+
+.movies__list li {
+  list-style-type: none;
+  list-style-position: inside;
+}
