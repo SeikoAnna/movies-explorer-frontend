@@ -11,6 +11,21 @@ export default function Popup({ isOpen, onClose }) {
     }
   }
 
+  const Links = [
+    {
+      to: '/',
+      title: 'Главная'
+    },
+    {
+      to: '/movies',
+      title: 'Фильмы'
+    },
+    {
+      to: '/movies/saved',
+      title: 'Сохраненные фильмы'
+    }
+  ]
+
 
   const getLinksClassName = ({ isActive }) => (isActive)
     ? 'link popup__link popup__link_type_active'
@@ -24,32 +39,19 @@ export default function Popup({ isOpen, onClose }) {
 
         <div className={'popup__content'}>
           <ul className='popup__list'>
-            <li className='popup__list-item'>
-              <NavLink
-                className={getLinksClassName}
-                to="/"
-              >
-                Главная
-              </NavLink>
-            </li>
-
-            <li className='popup__list-item'>
-              <NavLink
-                className={getLinksClassName}
-                to="/movies"
-              >
-                Фильмы
-              </NavLink>
-            </li>
-
-            <li className='popup__list-item'>
-              <NavLink
-                className={getLinksClassName}
-                to="/movies/saved"
-              >
-                Сохраненные фильмы
-              </NavLink>
-            </li>
+            {
+              Links.map(i => (
+                <li className='popup__list-item'>
+                  <NavLink
+                    className={getLinksClassName}
+                    to={i.to}
+                    onClick={onClose}
+                  >
+                    {i.title}
+                  </NavLink>
+                </li>
+              ))
+            }
           </ul>
 
           <div className={'popup__content-profile-container'}>
@@ -58,7 +60,6 @@ export default function Popup({ isOpen, onClose }) {
               to='/profile'
             >
               Аккаунт
-
               <img className='popup__acc-image' src={AccountIcon} alt='Иконка аккаунта' />
             </NavLink>
           </div>

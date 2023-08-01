@@ -60,3 +60,10 @@
   left: 17px;
   background-color: #FFFFFF;
 }
+
+@media (max-width: 768px) {
+  .checkbox-container {
+    margin-left: 0;
+    margin-top: 44px;
+  }
+}

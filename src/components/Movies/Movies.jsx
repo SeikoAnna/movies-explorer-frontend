@@ -21,12 +21,16 @@ export default function Movies() {
       <div className={'movies__wrapper'}>
 
         <SearchForm moviesStateAction={{movies, setFilteredMovies}} />
-        <section className='list__wrapper'>
+        <section className='movies__list-wrapper'>
           {
-            isLoading ?
-              <Preloader /> : <MoviesCardList cards={filteredMovies} />
+            isLoading
+              ? <Preloader />
+              : <>
+                  <MoviesCardList cards={filteredMovies} />
+                  <button type='button' className='button movies__load-movies'>Ещё</button>
+                </>
           }
-          <button type='button' className='button movies__load-movies'>Ещё</button>
+
         </section>
       </div>
 

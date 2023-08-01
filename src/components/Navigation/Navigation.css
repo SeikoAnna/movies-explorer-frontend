@@ -1,6 +1,10 @@
+.nav-auth {
+  width: 100%;
+}
+
 .nav-auth_type_login {
   width: 100%;
-  margin-left: 44px;
+  margin-left: 44px
 }
 
 .nav-auth__list {
@@ -14,6 +18,17 @@
   font-size: 13px;
   font-weight: 400;
   line-height: 16px;
+  justify-content: flex-end;
+}
+
+
+
+.nav-auth__link-black {
+  color: black;
+}
+
+.nav-auth__films > .link {
+  color: black;
 }
 
 .nav-auth__list_type_login {

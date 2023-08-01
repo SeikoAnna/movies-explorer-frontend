@@ -11,7 +11,7 @@ export default function MoviesCard({ card }) {
       <div className='movies-card__info'>
         <h2 className='movies-card__title'>{card.title}</h2>
         <p className='movies-card__time'>1ч 17м</p>
-        <button type='button' className={location.pathname === '/saved-movies' ? 'like movies-card__liked' : 'like movies-card__not_liked'} />
+        <button type='button' className={location.pathname === '/saved-movies' ? 'like movies-card__liked' : 'like movies-card__not-liked'} />
       </div>
       <img src={Movie} alt={`Название фильма ${card.title}`} className='movies-card__image' />
 

@@ -1,5 +1,5 @@
 .authorization {
-  max-width: 100%;
+  max-width: 400px;
   align-items: center;
   padding: 0 70px 80px;
   margin: 70px auto 0;
@@ -11,6 +11,7 @@
 .authorization__logo {
   display: flex;
   margin-bottom: 40px;
+  align-self: flex-start;
 }
 
 .authorization__title {
@@ -21,6 +22,7 @@
   font-weight: 500;
   line-height: normal;
   text-align: left;
+  align-self: flex-start;
 }
 
 .authorization__form {

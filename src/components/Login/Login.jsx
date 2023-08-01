@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Login.css';
 import {useAuth} from "../AuthProvider/AuthProvider";
+import Logo from "../Logo/Logo";
 
 export default function Login() {
 
@@ -29,6 +30,9 @@ export default function Login() {
   return (
     <main>
       <section className='authorization'>
+        <div className='authorization__logo'>
+          <Logo />
+        </div>
         <h1 className='authorization__title'>Рады видеть!</h1>
         <form className='authorization__form' onSubmit={handleSubmit}>
           <div className='authorization__input-container'>

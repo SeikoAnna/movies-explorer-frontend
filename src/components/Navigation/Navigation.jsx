@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, NavLink } from 'react-router-dom';
+import {Link, NavLink, useLocation} from 'react-router-dom';
 import AccountIcon from '../../images/nav-auth__acc-image.svg';
 import PopupImage from '../../images/nav-auth__acc-image_type_768.svg';
 import './Navigation.css';
@@ -28,6 +28,10 @@ export default function Navigation({  onClose }) {
     localStorage.setItem('showElement', JSON.stringify(showElement));
   }, [showElement]);
 
+  const path = useLocation().pathname;
+
+  const isOnMovies = (path === '/movies' || path === '/movies/saved')
+
   return (
     <>
       {!isLoggedIn ? (
@@ -53,21 +57,21 @@ export default function Navigation({  onClose }) {
                 <div className='nav-auth__films'>
                   <li className='nav-auth__list-item'>
                     <NavLink className={({ isActive }) =>
-                      isActive ? 'link nav-auth__link nav-auth__link_type_active' : 'link nav-auth__link'}
+                      isActive ? `${isOnMovies ? 'nav-auth__link-black' : 'link'} nav-auth__link nav-auth__link_type_active` : `${isOnMovies ? 'nav-auth__link-black' : 'link'} nav-auth__link`}
                       to='/movies'>
                       Фильмы
                     </NavLink>
                   </li>
                   <li className='nav-auth__list-item'>
                     <NavLink className={({ isActive }) =>
-                      isActive ? 'link nav-auth__link nav-auth__link_type_active' : 'link nav-auth__link'}
+                      isActive ? `${isOnMovies ? 'nav-auth__link-black' : 'link'} nav-auth__link nav-auth__link_type_active` : `${isOnMovies ? 'nav-auth__link-black' : 'link'} nav-auth__link`}
                       to='/movies/saved'>
                       Сохраненные фильмы
                     </NavLink>
                   </li>
                 </div>
                 <li className='nav-auth__list-item'>
-                  <NavLink className='link nav-auth__link nav-auth__link_type_acc-btn' to='/profile'>
+                  <NavLink className={`${isOnMovies ? 'nav-auth__link-black' : 'link' } nav-auth__link nav-auth__link_type_acc-btn`} to='/profile'>
                     Аккаунт
                     <img className='nav-auth__acc-image' src={AccountIcon} alt='Иконка профиля'/>
                   </NavLink>

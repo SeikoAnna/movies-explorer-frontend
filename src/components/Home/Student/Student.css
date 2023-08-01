@@ -1,8 +1,7 @@
 .student {
   max-width: 1280px;
-  padding: 111px 70px 100px;
+  /*padding: 0 70px;*/
   margin: 0 auto;
-  box-sizing: border-box;
 }
 
 .student__title {

@@ -3,6 +3,7 @@ import Navigation from '../Navigation/Navigation';
 import Logo from '../Logo/Logo';
 import Popup from '../Popup/Popup';
 import './Header.css';
+import {useLocation} from "react-router-dom";
 
 export default function Header() {
 
@@ -30,9 +31,17 @@ export default function Header() {
     }
   }, [isOpen])
 
+  const path = useLocation().pathname;
+
+  if((path === '/sign-up') || (path === '/sign-in')) {
+    return
+  }
+
+  const isOnMovies = (path === '/movies' || path === '/movies/saved');
+
   return (
     <>
-      <header className='header'>
+      <header className={`header ${isOnMovies ? 'header-white' : null }`}>
         <Logo />
         <Navigation onClose={handlePopupClick} />
       </header>

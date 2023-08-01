@@ -41,13 +41,13 @@ export default function AboutProject() {
           4 недели
         </p>
 
-        <span className='about-project__span'>
-          Back-end
-        </span>
+        <span className='about-project__span about-project__span--back-end'>
+      Back-end
+    </span>
 
-        <span className='about-project__span'>
-          Front-end
-        </span>
+        <span className='about-project__span about-project__span--front-end'>
+      Front-end
+    </span>
       </div>
     </LayoutBlock>
   );

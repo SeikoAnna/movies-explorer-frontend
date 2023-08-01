@@ -3,10 +3,10 @@ import './LayoutBlock.css'
 
 export default function LayoutBlock({headersTitle, className, id, children}) {
   return (
-    <section className={'layout-block'}>
-      <h2 className={'layout-block_title'}>{headersTitle}</h2>
+    <section className={className + ' layout-block'}>
+      <h2 className={className + '__title' + ' layout-block__title'}>{headersTitle}</h2>
 
-      <div className="layout-block_content">
+      <div className={className + "__content"}>
         {children}
       </div>
     </section>

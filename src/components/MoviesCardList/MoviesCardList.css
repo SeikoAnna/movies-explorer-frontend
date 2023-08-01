@@ -1,4 +1,4 @@
-.movies__list__wrapper {
+.movies__list {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -6,7 +6,7 @@
   justify-content: center;
 }
 
-.movies__list {
+.movies__list-inner {
   list-style-type: none;
   float: left;
   display: flex;
@@ -15,7 +15,13 @@
   padding-left: 0;
 }
 
-.movies__list li {
+.movies__list-inner li {
   list-style-type: none;
   list-style-position: inside;
+}
+
+@media (max-width: 768px) {
+  .movies__list-inner {
+    align-items: center;
+  }
 }
