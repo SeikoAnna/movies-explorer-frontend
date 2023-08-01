@@ -9,7 +9,7 @@ export default function Navigation({  onClose }) {
   const { isLoggedIn } = useAuth();
   const [showElement, setShowElement] = useState(() => {
     const storedValue = localStorage.getItem('showElement');
-    return storedValue !== null ? JSON.parse(storedValue) : true;
+    return storedValue !== null ? JSON.parse(storedValue) : false;
   });
 
   useEffect(() => {
