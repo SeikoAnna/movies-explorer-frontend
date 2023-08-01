@@ -1,0 +1,27 @@
+.movies__list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.movies__list-inner {
+  list-style-type: none;
+  float: left;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding-left: 0;
+}
+
+.movies__list-inner li {
+  list-style-type: none;
+  list-style-position: inside;
+}
+
+@media (max-width: 768px) {
+  .movies__list-inner {
+    align-items: center;
+  }
+}
