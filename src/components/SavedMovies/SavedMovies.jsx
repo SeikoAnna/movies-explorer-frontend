@@ -1,39 +1,71 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect, useMemo, useLayoutEffect} from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import './SavedMovies.css';
-import moviesDB from '../../utils/moviesDB';
+import searchFilter from "../../utils/searchFilter";
+import moviesApi from "../../utils/api/MoviesApi";
 
 export default function Movies() {
   const [isLoading, setIsLoading] = useState(true);
-  const movies = moviesDB;
-  const [filteredMovies, setFilteredMovies] = useState();
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [error, setError] = useState('');
+  const [savedMovies, setSavedMovies] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
+    const fetchSavedFilms = async () => {
+      try {
+        const data = await moviesApi.getSavedMovies();
+        if (data.length > 0) {
+          setFilteredMovies(data);
+          setSavedMovies(data);
+        } else {
+          setError('Ничего не найдено');
+        }
+      } catch (err) {
+        setError('Ошибка при загрузке фильмов');
+        console.error(err);
+      }
+    }
+
+    fetchSavedFilms().finally(() => {
       setIsLoading(false);
-    }, 1000);
-  }, []);
+    });
+  }, [])
+
+
+  const filter = useMemo(() => (name, shorts) => {
+    const filtered = searchFilter(savedMovies, name, shorts);
+    setError(filtered.length === 0 ? 'Ничего не найдено' : '');
+    setFilteredMovies(filtered);
+    setIsLoading(false);
+  }, [savedMovies]);
+
+  const handleSearch = (name, shorts) => {
+    setIsLoading(true);
+    filter(name, shorts);
+  };
 
   return (
     <main className='movies'>
       <div className={'movies__wrapper'}>
-
-        <SearchForm moviesStateAction={{movies, setFilteredMovies}} />
+        <SearchForm handleSearch={handleSearch} />
         <section className='movies__list-wrapper'>
           {
             isLoading
               ? <Preloader />
-              : <>
-                <MoviesCardList cards={filteredMovies} />
-                <button type='button' className='button movies__load-movies'>Ещё</button>
-              </>
+              : (
+                error
+                  ? <p className={'movies__error'}>{error}</p>
+                  : (
+                    <>
+                      <MoviesCardList savedFilms={savedMovies} setSavedFilms={setSavedMovies} cards={filteredMovies} />
+                    </>
+                  )
+              )
           }
-
         </section>
       </div>
-
     </main>
   );
 };

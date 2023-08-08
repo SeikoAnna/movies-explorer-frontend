@@ -3,42 +3,24 @@ import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import glass from '../../images/glass.svg';
 import './SearchForm.css';
+import {useLocation} from "react-router-dom";
 
-export default function SearchForm({ moviesStateAction }) {
+export default function SearchForm({ handleSearch }) {
 
-  const { values, handleChange, errors, isValid, setIsValid } = useFormAndValidation();
+  const { values, handleChange, errors, isValid, setValues } = useFormAndValidation();
 
   const [shortFilter, setShortFilter] = useState();
 
-  const { film } = values;
+  const { searchInput } = values;
 
-  const { movies, setFilteredMovies } = moviesStateAction;
 
-  const findFilm = (e) => {
-    if(e) {
-      e.preventDefault();
-    }
+  const { pathname } = useLocation();
 
-    if (!film) {
-      setIsValid(false)
-      setFilteredMovies(movies);
-      return;
-
-    }
-    const filtered = movies.filter((movie) => {
-      const isTitleMatch = movie.title.toLowerCase().includes(film.toLowerCase());
-      const isShortMatch = !shortFilter || movie.short === shortFilter;
-
-      return isTitleMatch && isShortMatch;
-    });
-
-    setFilteredMovies(filtered);
-  }
-
-  useLayoutEffect(() => {
-    findFilm()
-  }, [])
-  // useEffect(() => {
+  // const findFilm = (e) => {
+  //   if(e) {
+  //     e.preventDefault();
+  //   }
+  //
   //   if (!film) {
   //     setIsValid(false)
   //     setFilteredMovies(movies);
@@ -53,8 +35,44 @@ export default function SearchForm({ moviesStateAction }) {
   //   });
   //
   //   setFilteredMovies(filtered);
-  //
-  // }, [film, shortFilter, movies, setFilteredMovies, setIsValid])
+  // }
+
+  const handleShortFilter = () => {
+    if(errors.searchInput) return;
+
+    setShortFilter(!shortFilter);
+    handleSearch(searchInput, !shortFilter);
+    if (pathname === '/movies') {
+      localStorage.setItem('shorts', String(!shortFilter));
+    }
+  };
+
+  const findFilm = (e) => {
+    e.preventDefault();
+
+    if (pathname === '/movies') {
+      localStorage.setItem('searchFilm', searchInput);
+    }
+    handleSearch(searchInput, shortFilter);
+  };
+
+  useEffect(() => {
+    if (pathname === '/movies') {
+      const savedInputValue = localStorage.getItem('searchFilm');
+      const savedShorts = JSON.parse(localStorage.getItem('shorts'));
+
+      if (savedInputValue) {
+        setValues({...values, searchInput: savedInputValue});
+      }
+      if (savedShorts) {
+        setShortFilter(savedShorts);
+      }
+      if (savedInputValue || savedShorts === true) {
+        handleSearch(savedInputValue, savedShorts);
+      }
+    }
+  }, []);
+
 
   return (
     <section className='search-section'>
@@ -63,8 +81,8 @@ export default function SearchForm({ moviesStateAction }) {
           <input
             type='text'
             className='search-form__input'
-            name='film'
-            value={film || ''}
+            name='searchInput'
+            value={searchInput || ''}
             onChange={handleChange}
             placeholder='Фильм'
             required
@@ -74,10 +92,10 @@ export default function SearchForm({ moviesStateAction }) {
           </button>
         </div>
         <span className={isValid ? 'search-form__input-error' : 'search-form__input-error search-form__input-error_active'}>
-          {errors.film}
+          {errors.searchInput}
         </span>
 
-        <FilterCheckbox shortFilter={shortFilter} setShortFilter={setShortFilter} />
+        <FilterCheckbox shortFilter={shortFilter} setShortFilter={handleShortFilter} />
       </form>
 
     </section>

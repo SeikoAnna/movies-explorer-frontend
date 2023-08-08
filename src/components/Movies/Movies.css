@@ -18,6 +18,12 @@
   width: 100%;
 }
 
+.movies__error {
+  margin: 100px 0;
+  color: #073042;
+  text-align: center;
+}
+
 .movies__load-movies {
   width: 100%;
   height: 50px;

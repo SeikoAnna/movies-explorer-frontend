@@ -15,6 +15,7 @@ export default function Navigation({  onClose }) {
   useEffect(() => {
     function handleResize() {
       setShowElement(window.innerWidth <= 768);
+      console.log(window.innerWidth);
     }
 
     window.addEventListener('resize', handleResize);

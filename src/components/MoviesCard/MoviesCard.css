@@ -12,7 +12,17 @@
   padding: 16px;
   position: relative;
   max-width: 400px;
+  min-width: 400px;
   word-wrap: break-word;
+}
+
+
+
+.movies-card__image {
+  max-width: 100%; /* Изменено значение на 100% */
+  height: auto; /* Добавлено свойство для автоматической высоты */
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }
 
 .movies-card__title {
@@ -37,6 +47,24 @@
   background-image: url(../../images/like_disable.svg);
   width: 14px;
   height: 12px;
+  border: none;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+
+.movies-card__liked {
+  background-image: url(../../images/like_active.svg);
+  width: 14px;
+  height: 12px;
+  border: none;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+
+.movies-card__to-deleted {
+  background-image: url(../../images/movies-card__delete.svg);
+  width: 14px;
+  height: 14px;
   border: none;
   background-color: #FFFFFF;
   cursor: pointer;
@@ -68,7 +96,7 @@
   }
 
   .movies-card__image {
-    width: 100%;
+    object-fit: cover;
     border-bottom-right-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
   }

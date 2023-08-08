@@ -11,7 +11,7 @@ export default function Login() {
 
   const { email, password } = values;
 
-  const { setIsLoggedIn } = useAuth();
+  const { login, isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,11 +20,14 @@ export default function Login() {
     }
   }, [email, password, setIsValid])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoggedIn(true);
-    localStorage.setItem('token', 'some-token-here'); // todo: LOGIN add token
-    navigate('/');
+
+    const jwt = await login(email, password);
+
+    if(jwt) {
+      navigate('/');
+    }
   }
 
   return (

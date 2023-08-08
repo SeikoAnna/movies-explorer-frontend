@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Profile.css';
 import {useAuth} from "../AuthProvider/AuthProvider";
+import mainApi from "../../utils/api/MainApi";
 
 export default function Profile() {
 
@@ -10,7 +11,7 @@ export default function Profile() {
 
   const { email, name } = values;
 
-  const { setIsLoggedIn } = useAuth();
+  const { logout, userData } = useAuth();
 
   useEffect(() => {
     if (!email && !name) {
@@ -18,23 +19,32 @@ export default function Profile() {
     }
   }, [email, name, setIsValid])
 
+  const handleSubmitChanges = (e) => {
+      e.preventDefault();
+
+      mainApi.editCurrentUserInfo({name, email}).then(() => {
+        alert('Вы успешно изменили данные!')
+      }).catch((err) => {
+        alert('Ошибка при изменении данных.')
+        console.log(err)
+      });
+  }
   const handleExit = (e) => {
-    setIsLoggedIn(false);
-    localStorage.removeItem('token');
+    logout();
   }
 
   return (
     <main>
       <section className='profile'>
-        <h1 className='profile__title'>Привет, UserName!</h1>
-        <form className='profile__form'>
+        <h1 className='profile__title'>Привет, {userData.name}!</h1>
+        <form className='profile__form' onSubmit={handleSubmitChanges}>
           <div className='profile__input-container'>
             <label className='profile__input-label'>Имя</label>
             <input
               type='text'
               className='profile__input'
               name='name'
-              value={name || ''}
+              value={name || userData.name}
               onChange={handleChange}
               required
               minLength='2'
@@ -51,7 +61,7 @@ export default function Profile() {
               type='email'
               className='profile__input'
               name='email'
-              value={email || ''}
+              value={email || userData.email}
               onChange={handleChange}
               required
               placeholder='Email'

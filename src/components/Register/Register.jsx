@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import Logo from '../Logo/Logo';
 import './Register.css';
+import mainApi from "../../utils/api/MainApi";
+
 
 export default function Register() {
 
@@ -18,6 +20,18 @@ export default function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    mainApi.register(name, email, password)
+      .then((res) => {
+          if(res) {
+            alert('Вы успешно зарегистрированы')
+            return true;
+          }
+      })
+      .catch(err => {
+        alert('Произошла ошибка при регистрации.')
+        console.log(err);
+      });
   }
 
   return (
@@ -27,7 +41,7 @@ export default function Register() {
           <Logo />
         </div>
         <h1 className='registration__title'>Добро пожаловать!</h1>
-        <form className='registration__form'>
+        <form className='registration__form' onSubmit={handleSubmit}>
           <div className='registration__input-container'>
             <label className='registration__input-label'>Имя</label>
             <input
