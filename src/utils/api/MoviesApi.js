@@ -51,7 +51,7 @@ class MoviesApi extends BaseApi {
 
 
 const moviesApi = new MoviesApi({
-  baseUrl: "http://localhost:3000/api",
+  baseUrl: "https://api.seiko.anna.nomoredomains.xyz/api",
   headers: {
     "Content-Type": "application/json",
   }

@@ -52,7 +52,7 @@ class MainApi extends BaseApi {
 }
 
 const mainApi = new MainApi({
-  baseUrl: "http://localhost:3000/api",
+  baseUrl: "https://api.seiko.anna.nomoredomains.xyz/api",
   headers: {
     "Content-Type": "application/json",
   }
