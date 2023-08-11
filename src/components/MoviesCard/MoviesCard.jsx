@@ -3,9 +3,10 @@ import './MoviesCard.css';
 import {useEffect,  useState} from "react";
 import moviesApi from "../../utils/api/MoviesApi";
 
-export default function MoviesCard({ card, savedFilms, setSavedFilms }) {
+export default function MoviesCard({ setVisibleMovies, card, savedFilms, setSavedFilms }) {
   const [likedCard, setLikedCard] = useState(null);
   const [like, setLike] = useState(false);
+  const likedCardData = savedFilms.find(savedFilm => savedFilm.movieId === card.id);
 
   const location = useLocation();
   function unixToHoursSeconds(unixTimestamp) {
@@ -17,39 +18,53 @@ export default function MoviesCard({ card, savedFilms, setSavedFilms }) {
 
   useEffect(() => {
     if (savedFilms.length) {
-      const newLikedCard = savedFilms.find(savedFilm => savedFilm.movieId === card.id);
-      setLikedCard(newLikedCard);
-      setLike(!!newLikedCard);
+      if(likedCardData) {
+        setLikedCard(likedCardData);
+      }
     }
-  }, [savedFilms, card.id]);
+  }, [savedFilms]);
+
+  useEffect(() => {
+    if(likedCard) {
+      setLike(!!likedCard)
+    }
+
+  }, [likedCard])
+
+  useEffect(() => {
+  }, [like])
 
   const handleLikeClick = async () => {
-    const copyCard = card;
+    const newCard = {
+      country: card.country,
+      description: card.description,
+      director: card.director,
+      duration: card.duration,
+      image: card.image.url ? `https://api.nomoreparties.co${card.image.url}` : card.image,
+      movieId: card.id,
+      nameEN: card.nameEN,
+      nameRU: card.nameRU,
+      thumbnail: "https://www.yandex.com",
+      trailerLink: card.trailerLink,
+      year: card.year
+    }
 
     try {
-      if (likedCard) {
+      if (like) {
         await moviesApi.removeMovie(likedCard._id).then(() => {
+          setSavedFilms(prevFilms => prevFilms.filter(savedFilm => savedFilm._id !== likedCard._id));
           setLikedCard(null);
-          setSavedFilms(prevFilms => prevFilms.filter(savedFilm => savedFilm.id !== copyCard.id));
           setLike(false);
-          console.log(likedCard);
+        }).catch(err => {
+          alert('Вы не можете снять лайк');
         });
       } else {
-        copyCard.image = `https://api.nomoreparties.co${card.image.url || card.image}`;
-        if(!copyCard.thumbnail) {
-          copyCard.thumbnail = 'https://www.yandex.com'
-        }
-        if(!copyCard.movieId) {
-          copyCard.movieId = card.id;
-        }
-
-        delete copyCard.id;
-        delete copyCard.created_at;
-        delete copyCard.updated_at;
-
-        await moviesApi.createMovie(copyCard);
-        setLike(true);
-        setSavedFilms(prevFilms => [...prevFilms, card]);
+        await moviesApi.createMovie(newCard).then((res) => {
+          setLikedCard(res);
+          setLike(true);
+        }).catch(() => {
+          alert('Вы не можете поставить лайк');
+        });
       }
     } catch (error) {
       console.error('Error handling like:', error);
@@ -57,7 +72,13 @@ export default function MoviesCard({ card, savedFilms, setSavedFilms }) {
   };
 
   const handleRemoveLike = async () => {
-
+    await moviesApi.removeMovie(card._id).then(() => {
+        setSavedFilms(prevFilms => prevFilms.filter(savedFilm => savedFilm._id !== card._id));
+        setLikedCard(null);
+        setLike(false);
+        setVisibleMovies(prevFilms => prevFilms.filter(savedFilm => savedFilm._id !== card._id));
+      }
+    )
   }
 
   const { hours, minutes } = unixToHoursSeconds(card.duration);
@@ -74,11 +95,9 @@ export default function MoviesCard({ card, savedFilms, setSavedFilms }) {
         }
 
       </div>
-      <div>
+      <a href={card.trailerLink}>
         <img src={card.image.url ? `https://api.nomoreparties.co${card.image.url}` : card.image} alt={`Название фильма ${card.nameRU}`} className='movies-card__image' />
-      </div>
-
-
+      </a>
     </li>
   )
 };

@@ -41,6 +41,10 @@
   margin-top: -12px;
 }
 
+.profile__button_type_edit {
+  color: green;
+}
+
 .profile__input-label {
   padding: 0;
   width: 55px;

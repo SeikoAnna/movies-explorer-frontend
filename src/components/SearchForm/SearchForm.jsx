@@ -16,27 +16,6 @@ export default function SearchForm({ handleSearch }) {
 
   const { pathname } = useLocation();
 
-  // const findFilm = (e) => {
-  //   if(e) {
-  //     e.preventDefault();
-  //   }
-  //
-  //   if (!film) {
-  //     setIsValid(false)
-  //     setFilteredMovies(movies);
-  //     return;
-  //
-  //   }
-  //   const filtered = movies.filter((movie) => {
-  //     const isTitleMatch = movie.title.toLowerCase().includes(film.toLowerCase());
-  //     const isShortMatch = !shortFilter || movie.short === shortFilter;
-  //
-  //     return isTitleMatch && isShortMatch;
-  //   });
-  //
-  //   setFilteredMovies(filtered);
-  // }
-
   const handleShortFilter = () => {
     if(errors.searchInput) return;
 

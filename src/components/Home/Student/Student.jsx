@@ -11,7 +11,7 @@ export default function Student() {
     >
       <div className='student__info'>
         <div className='student__info-text'>
-          <div>
+          <div className={'student__into-text__wrapper'}>
             <h3 className='student__name'>
               Анна
             </h3>
@@ -27,7 +27,6 @@ export default function Student() {
           </div>
 
 
-          <div>
             <a
               className='link student__link'
               href='https://github.com/SeikoAnna'
@@ -36,7 +35,6 @@ export default function Student() {
             >
               Github
             </a>
-          </div>
         </div>
 
         <img className='student__image' src={photo} alt='Фото цветы' />

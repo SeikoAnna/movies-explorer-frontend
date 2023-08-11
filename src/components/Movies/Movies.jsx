@@ -5,18 +5,31 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import './Movies.css';
 import searchFilter from "../../utils/searchFilter";
 import moviesApi from "../../utils/api/MoviesApi";
+import {useGetWidthBrowser} from "../../utils/useGetBrowserWidth";
+import {MOBILE_WIDTH, MOVIES_PER_PAGE, MOVIES_PER_PAGE_MOBILE} from "../../utils/constrains";
 
 export default function Movies() {
+
+  const width = useGetWidthBrowser();
 
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [savedFilms, setSavedFilms] = useState([]);
-  const moviesPerPage = 5;
+  const [moviesPerPage, setMoviesPerPage] = useState(MOVIES_PER_PAGE);
+  const [visibleMovies, setVisibleMovies] = useState()
 
-  const visibleMovies = useMemo(() => filteredMovies.slice(0, moviesPerPage * currentPage), [filteredMovies, currentPage]);
 
+  useEffect(() => {
+    if(width < MOBILE_WIDTH) {
+      setMoviesPerPage(MOVIES_PER_PAGE_MOBILE);
+    } else {
+      setMoviesPerPage(MOVIES_PER_PAGE);
+    }
+
+    setVisibleMovies(filteredMovies.slice(0, moviesPerPage * currentPage))
+  }, [width, filteredMovies, currentPage, moviesPerPage])
 
   useEffect(() => {
     const storageMovies = localStorage.getItem('movies');
@@ -24,7 +37,7 @@ export default function Movies() {
     if (!storageMovies) {
       const fetchFilms = async () => {
         try {
-          const data = await fetch('https://api.nomoreparties.co/beatfilm-movies').then(res => res.json());
+          const data = await fetch('https://api.nomoreparties.co/beatfilm-movies').then(res => res.json()).finally(() => setIsLoading(false));
           if (data.length > 0) {
             localStorage.setItem('movies', JSON.stringify(data));
             setFilteredMovies(data);
@@ -35,22 +48,24 @@ export default function Movies() {
         }
       };
 
-      fetchFilms();
+      fetchFilms()
+    } else {
+      setIsLoading(false);
     }
 
     const fetchSavedFilms = async () => {
       try {
-        const data = await moviesApi.getSavedMovies();
-        setSavedFilms(data);
-        console.log(data);
-        return data;
+        await moviesApi.getSavedMovies().then(
+          res => {
+            setSavedFilms(res)
+          }
+        );
       } catch (err) {
         alert('Не удалось подгрузить сохранённые фильмы')
       }
 
     }
-
-    fetchSavedFilms();
+    fetchSavedFilms()
 
     const name = localStorage.getItem('searchFilm');
     const shorts = JSON.parse(localStorage.getItem('shorts'));
@@ -63,11 +78,9 @@ export default function Movies() {
     setError(filtered.length === 0 ? 'Ничего не найдено' : '');
     setFilteredMovies(filtered);
     setCurrentPage(1);
-    setIsLoading(false);
   }, []);
 
   const handleSearch = (name, shorts) => {
-    setIsLoading(true);
     filter(name, shorts);
   };
 
@@ -91,7 +104,7 @@ export default function Movies() {
                   ? <p className={'movies__error'}>{error}</p>
                   : (
                     <>
-                      <MoviesCardList savedFilms={savedFilms} setSavedFilms={setSavedFilms} cards={visibleMovies} />
+                      <MoviesCardList setVisibleMovies={setVisibleMovies} savedFilms={savedFilms} setSavedFilms={setSavedFilms} cards={visibleMovies} />
                       {filteredMovies.length > moviesPerPage * currentPage && (
                         <button
                           type='button'

@@ -1,16 +1,20 @@
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import {useContext, useEffect} from 'react';
+import {Link, useNavigate} from 'react-router-dom'
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import Logo from '../Logo/Logo';
 import './Register.css';
 import mainApi from "../../utils/api/MainApi";
+import {useAuth} from "../AuthProvider/AuthProvider";
 
 
 export default function Register() {
 
+  const {login} = useAuth();
   const { values, handleChange, errors, isValid, setIsValid } = useFormAndValidation();
 
   const { email, password, name } = values;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!email && !password && !name) {
@@ -25,6 +29,8 @@ export default function Register() {
       .then((res) => {
           if(res) {
             alert('Вы успешно зарегистрированы')
+            login(email, password);
+            navigate('/movies')
             return true;
           }
       })
@@ -68,6 +74,7 @@ export default function Register() {
               value={email || ''}
               onChange={handleChange}
               required
+              pattern={'/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/'}
               placeholder='E-mail'
             />
             <span className="input-error input-error_active">
@@ -95,7 +102,7 @@ export default function Register() {
           <div className='registration__buttons'>
             <button type='submit' className='button registration__button'>Зарегистрироваться</button>
             <p className='registration__text'>Уже зарегистрированы?
-              <Link className='registration__link' to='/signin'> Войти</Link>
+              <Link className='registration__link' to='/sign-in'> Войти</Link>
             </p>
           </div>
         </form>

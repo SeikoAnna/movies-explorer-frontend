@@ -59,7 +59,7 @@ export default function Movies() {
                   ? <p className={'movies__error'}>{error}</p>
                   : (
                     <>
-                      <MoviesCardList savedFilms={savedMovies} setSavedFilms={setSavedMovies} cards={filteredMovies} />
+                      <MoviesCardList setVisibleMovies={setFilteredMovies} savedFilms={savedMovies} setSavedFilms={setSavedMovies} cards={filteredMovies} />
                     </>
                   )
               )

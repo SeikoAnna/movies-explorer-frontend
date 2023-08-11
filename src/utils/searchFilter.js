@@ -1,3 +1,5 @@
+import {SHORT_TIME} from "./constrains";
+
 export default function searchFilter(array, searchStr, short) {
   if (!array) {
     return [];
@@ -16,7 +18,7 @@ export default function searchFilter(array, searchStr, short) {
   }
 
   if (short) {
-    return filtered.filter((element) => element.duration <= 40); // > 40 min
+    return filtered.filter((element) => element.duration <= SHORT_TIME); // > 40 min
   }
 
   return filtered;

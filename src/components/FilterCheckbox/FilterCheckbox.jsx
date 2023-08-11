@@ -7,7 +7,7 @@ export default function FilterCheckbox({shortFilter, setShortFilter}) {
     <div className='checkbox-container'>
       <label className='checkbox-label' htmlFor='checkbox'>Короткометражки</label>
       <input
-        className='checkbox'
+        className={`checkbox`}
         type='checkbox'
         checked={!!shortFilter}
         id='checkbox'

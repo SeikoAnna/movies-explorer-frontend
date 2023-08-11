@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import { NavLink } from 'react-router-dom';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Profile.css';
@@ -7,7 +7,10 @@ import mainApi from "../../utils/api/MainApi";
 
 export default function Profile() {
 
-  const { values, handleChange, errors, setIsValid } = useFormAndValidation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+
+  const { values, handleChange, errors, setIsValid, isValid } = useFormAndValidation();
 
   const { email, name } = values;
 
@@ -22,13 +25,28 @@ export default function Profile() {
   const handleSubmitChanges = (e) => {
       e.preventDefault();
 
-      mainApi.editCurrentUserInfo({name, email}).then(() => {
-        alert('Вы успешно изменили данные!')
-      }).catch((err) => {
-        alert('Ошибка при изменении данных.')
-        console.log(err)
-      });
+    if (isSubmitting) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    if (userData.name === name && userData.email === email) {
+      alert('Данные ничем не отличаются от текущих!');
+      setIsSubmitting(false);
+      return;
+    }
+
+    mainApi.editCurrentUserInfo({name, email}).then(() => {
+      alert('Вы успешно изменили данные!')
+    }).catch((err) => {
+      alert('Ошибка при изменении данных.')
+      console.log(err)
+    }).finally(() => {
+      setIsSubmitting(false);
+    });
   }
+
   const handleExit = (e) => {
     logout();
   }
@@ -44,7 +62,7 @@ export default function Profile() {
               type='text'
               className='profile__input'
               name='name'
-              value={name || userData.name}
+              value={name || ''}
               onChange={handleChange}
               required
               minLength='2'
@@ -61,7 +79,7 @@ export default function Profile() {
               type='email'
               className='profile__input'
               name='email'
-              value={email || userData.email}
+              value={email || ''}
               onChange={handleChange}
               required
               placeholder='Email'
@@ -72,7 +90,7 @@ export default function Profile() {
           </span>
 
           <div className='profile__buttons'>
-            <button type='submit' className='link profile__button profile__button_type_edit'>Редактировать</button>
+            <button type='submit' className='link profile__button profile__button_type_edit' disabled={!isValid || isSubmitting}>{isSubmitting ? 'Отправка...' : 'Редактировать'}</button>
             <NavLink className='profile__button profile__button_type_exit' to='/' onClick={handleExit}>
               Выйти из профиля
             </NavLink>

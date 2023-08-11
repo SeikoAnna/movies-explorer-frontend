@@ -7,7 +7,7 @@ import Logo from "../Logo/Logo";
 
 export default function Login() {
 
-  const { values, handleChange, errors, setIsValid } = useFormAndValidation();
+  const { values, handleChange, errors, setIsValid, isValid } = useFormAndValidation();
 
   const { email, password } = values;
 
@@ -26,7 +26,7 @@ export default function Login() {
     const jwt = await login(email, password);
 
     if(jwt) {
-      navigate('/');
+      navigate('/movies');
     }
   }
 
@@ -44,6 +44,7 @@ export default function Login() {
               type='email'
               className='input authorization__input'
               name='email'
+              pattern='^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
               value={email || ''}
               onChange={handleChange}
               required
@@ -71,9 +72,9 @@ export default function Login() {
             </span>
           </div>
           <div className='authorization__buttons'>
-            <button type='submit' className='button authorization__button'>Войти</button>
+            <button type='submit' className='button authorization__button' disabled={!isValid}>Войти</button>
             <p className='authorization__text'>Еще не зарегистрированы?
-              <Link className='authorization__link' to='/signup'> Регистрация</Link>
+              <Link className='authorization__link' to='/sign-up'> Регистрация</Link>
             </p>
           </div>
         </form>

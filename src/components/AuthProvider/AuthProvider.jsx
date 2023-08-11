@@ -57,6 +57,9 @@ export const AuthProvider = ({ children }) => {
         mainApi.logOut().then(() => {
             setIsLoggedIn(false);
             setUserData(null);
+            localStorage.removeItem('shorts')
+            localStorage.removeItem('movies')
+            localStorage.removeItem('searchFilm')
         }).catch((err) => {
             alert('Ошибка при попытке выйти из аккаунта')
             console.log(err);

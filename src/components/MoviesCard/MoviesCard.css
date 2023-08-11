@@ -12,14 +12,14 @@
   padding: 16px;
   position: relative;
   max-width: 400px;
-  min-width: 400px;
   word-wrap: break-word;
 }
 
 
 
 .movies-card__image {
-  max-width: 100%; /* Изменено значение на 100% */
+  max-width: 600px; /* Изменено значение на 100% */
+  width: 100%;
   height: auto; /* Добавлено свойство для автоматической высоты */
   border-bottom-right-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
