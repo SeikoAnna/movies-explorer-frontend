@@ -20,6 +20,7 @@ export default function Login() {
       setIsValid(false)
     } else if(!validateEmail(email) && !errors.email && email) {
       setErrors({...errors, email: 'Некорректный Email' })
+      setIsValid(false);
     } else if(validateEmail(email) && (!errors.password)) {
       setIsValid(true);
     }
