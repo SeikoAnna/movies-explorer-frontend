@@ -24,9 +24,7 @@ export default function Profile() {
   useEffect(() => {
     if ((!email && !name)) {
       setIsValid(false)
-    }
-
-    if((userData.name === name && userData.email === email) ) {
+    } else if((userData.name === name && userData.email === email) ) {
       setIsValid(false)
     } else if(!validateEmail(email) && !errors.email && email && !errors.email) {
       setErrors({...errors, email: 'Некорректный Email' })
