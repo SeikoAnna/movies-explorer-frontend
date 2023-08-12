@@ -22,7 +22,7 @@ export default function Profile() {
   }, [userData])
 
   useEffect(() => {
-    if ((!email && !name)) {
+    if ((!email || !name)) {
       setIsValid(false)
     } else if((userData.name === name && userData.email === email) ) {
       setIsValid(false)
