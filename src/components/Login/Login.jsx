@@ -16,13 +16,11 @@ export default function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!email && !password) {
+    if (!email || !password) {
       setIsValid(false)
-    }
-
-    if(!validateEmail(email) && !errors.email && email) {
+    } else if(!validateEmail(email) && !errors.email && email) {
       setErrors({...errors, email: 'Некорректный Email' })
-    } else if(validateEmail(email)) {
+    } else if(validateEmail(email) && (!errors.password)) {
       setIsValid(true);
     }
   }, [email, password, setIsValid])
