@@ -45,6 +45,15 @@
   color: green;
 }
 
+button:disabled,
+button[disabled]{
+  color: #666666;
+}
+
+button:disabled:hover {
+  color: #666666;
+  opacity: 0.3;
+}
 .profile__input-label {
   padding: 0;
   width: 55px;

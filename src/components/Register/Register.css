@@ -75,6 +75,10 @@
   line-height: normal;
 }
 
+.registration__button:disabled {
+  opacity: 0.3;
+}
+
 .registration__text {
   margin: 16px 0 0;
   text-align: center;

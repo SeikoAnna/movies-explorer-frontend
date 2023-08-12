@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userData, login, logout }}>
+        <AuthContext.Provider value={{ isLoggedIn, userData, login, logout, setUserData }}>
             {isLoading ? <Preloader /> : children}
         </AuthContext.Provider>
     );

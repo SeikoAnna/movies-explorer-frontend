@@ -5,21 +5,31 @@ import Logo from '../Logo/Logo';
 import './Register.css';
 import mainApi from "../../utils/api/MainApi";
 import {useAuth} from "../AuthProvider/AuthProvider";
+import {validateEmail} from "../../utils/validateEmail";
 
 
 export default function Register() {
 
   const {login} = useAuth();
-  const { values, handleChange, errors, isValid, setIsValid } = useFormAndValidation();
+  const { values, handleChange, errors, isValid, setIsValid, setErrors } = useFormAndValidation();
 
   const { email, password, name } = values;
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!email && !password && !name) {
+    if (!email || !password || !name) {
       setIsValid(false)
+    } else if(!validateEmail(email) && !errors.email && email) {
+      setErrors({...errors, email: 'Некорректный Email' })
+      setIsValid(false);
+    } else {
+      setErrors(errors)
+      setIsValid(true);
     }
+
+
+
   }, [email, password, name])
 
   const handleSubmit = (e) => {
@@ -35,10 +45,15 @@ export default function Register() {
           }
       })
       .catch(err => {
-        alert('Произошла ошибка при регистрации.')
+        if(err.status === 409) {
+          alert('Пользователь с таким Email уже зарегистрирован')
+        } else {
+          alert('Произошла ошибка при регистрации.')
+        }
         console.log(err);
       });
   }
+
 
   return (
     <main>
@@ -74,7 +89,6 @@ export default function Register() {
               value={email || ''}
               onChange={handleChange}
               required
-              pattern={'/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/'}
               placeholder='E-mail'
             />
             <span className="input-error input-error_active">
@@ -100,7 +114,7 @@ export default function Register() {
             <span className='registration__error'></span>
           </div>
           <div className='registration__buttons'>
-            <button type='submit' className='button registration__button'>Зарегистрироваться</button>
+            <button type='submit' className='button registration__button' disabled={!isValid}>Зарегистрироваться</button>
             <p className='registration__text'>Уже зарегистрированы?
               <Link className='registration__link' to='/sign-in'> Войти</Link>
             </p>

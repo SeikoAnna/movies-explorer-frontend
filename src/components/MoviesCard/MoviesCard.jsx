@@ -89,7 +89,7 @@ export default function MoviesCard({ setVisibleMovies, card, savedFilms, setSave
         <h2 className='movies-card__title'>{card.nameRU}</h2>
         <p className='movies-card__time'>{hours}h:{minutes}m</p>
         {
-          location.pathname  === '/movies/saved'
+          location.pathname  === '/movies-saved'
           ? <button onClick={handleRemoveLike} type={"button"} className={'like movies-card__to-deleted'} />
             : <button onClick={handleLikeClick} type='button' className={like ? 'like movies-card__liked' : 'like movies-card__not-liked'} />
         }

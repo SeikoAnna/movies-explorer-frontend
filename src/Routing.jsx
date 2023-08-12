@@ -25,7 +25,7 @@ const RoutesList = [
 
   // Movies
   {path: '/movies', pageComponent: <MoviesPage />, isPublicPage: true},
-  {path: '/movies/saved', pageComponent: <SavedMoviesPage />, isPublicPage: true},
+  {path: '/movies-saved', pageComponent: <SavedMoviesPage />, isPublicPage: true},
 
   {path: '*', pageComponent: <NotFoundPage />, isPublicPage: false},
 ]

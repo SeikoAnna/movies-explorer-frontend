@@ -4,19 +4,26 @@ import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Login.css';
 import {useAuth} from "../AuthProvider/AuthProvider";
 import Logo from "../Logo/Logo";
+import {validateEmail} from "../../utils/validateEmail";
 
 export default function Login() {
 
-  const { values, handleChange, errors, setIsValid, isValid } = useFormAndValidation();
+  const { values, handleChange, errors, setIsValid, isValid, setErrors } = useFormAndValidation();
 
   const { email, password } = values;
 
-  const { login, isLoggedIn } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!email && !password) {
       setIsValid(false)
+    }
+
+    if(!validateEmail(email) && !errors.email && email) {
+      setErrors({...errors, email: 'Некорректный Email' })
+    } else if(validateEmail(email)) {
+      setIsValid(true);
     }
   }, [email, password, setIsValid])
 

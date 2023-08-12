@@ -30,7 +30,7 @@ export default function Navigation({  onClose }) {
 
   const path = useLocation().pathname;
 
-  const isOnMovies = (path === '/movies' || path === '/movies/saved')
+  const isOnMovies = (path === '/movies' || path === '/movies-saved')
 
   return (
     <>
@@ -65,7 +65,7 @@ export default function Navigation({  onClose }) {
                   <li className='nav-auth__list-item'>
                     <NavLink className={({ isActive }) =>
                       isActive ? `${isOnMovies ? 'nav-auth__link-black' : 'link'} nav-auth__link nav-auth__link_type_active` : `${isOnMovies ? 'nav-auth__link-black' : 'link'} nav-auth__link`}
-                      to='/movies/saved'>
+                      to='/movies-saved'>
                       Сохраненные фильмы
                     </NavLink>
                   </li>

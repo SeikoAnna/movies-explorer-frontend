@@ -21,7 +21,7 @@ export default function Popup({ isOpen, onClose }) {
       title: 'Фильмы'
     },
     {
-      to: '/movies/saved',
+      to: '/movies-saved',
       title: 'Сохраненные фильмы'
     }
   ]

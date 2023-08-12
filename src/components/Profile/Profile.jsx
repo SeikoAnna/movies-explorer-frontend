@@ -4,23 +4,40 @@ import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Profile.css';
 import {useAuth} from "../AuthProvider/AuthProvider";
 import mainApi from "../../utils/api/MainApi";
+import {validateEmail} from "../../utils/validateEmail";
 
 export default function Profile() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
 
-  const { values, handleChange, errors, setIsValid, isValid } = useFormAndValidation();
+  const { values, handleChange, errors, setIsValid, isValid, setValues, setErrors } = useFormAndValidation();
 
   const { email, name } = values;
 
-  const { logout, userData } = useAuth();
+  const { logout, userData, setUserData } = useAuth();
 
   useEffect(() => {
-    if (!email && !name) {
+    setValues({email: userData.email, name: userData.name})
+  }, [userData])
+
+  useEffect(() => {
+    if ((!email && !name)) {
       setIsValid(false)
     }
-  }, [email, name, setIsValid])
+
+    if((userData.name === name && userData.email === email) ) {
+      setIsValid(false)
+    } else if(!validateEmail(email) && !errors.email && email && !errors.email) {
+      setErrors({...errors, email: 'Некорректный Email' })
+      setIsValid(false)
+    } else {
+      setErrors(errors)
+      setIsValid(true);
+    }
+
+
+  }, [email, name, setIsValid, isSubmitting, userData])
 
   const handleSubmitChanges = (e) => {
       e.preventDefault();
@@ -32,22 +49,26 @@ export default function Profile() {
     setIsSubmitting(true);
 
     if (userData.name === name && userData.email === email) {
-      alert('Данные ничем не отличаются от текущих!');
       setIsSubmitting(false);
       return;
     }
 
-    mainApi.editCurrentUserInfo({name, email}).then(() => {
+    mainApi.editCurrentUserInfo({name, email}).then((res) => {
       alert('Вы успешно изменили данные!')
+      setUserData(res)
     }).catch((err) => {
-      alert('Ошибка при изменении данных.')
+      if(err.status === 409) {
+        alert('Такой Email уже зарегистрирован')
+      } else {
+        alert('Ошибка при изменении данных.')
+      }
       console.log(err)
     }).finally(() => {
       setIsSubmitting(false);
     });
   }
 
-  const handleExit = (e) => {
+  const handleExit = () => {
     logout();
   }
 

@@ -37,7 +37,7 @@ export default function Header() {
     return
   }
 
-  const isOnMovies = (path === '/movies' || path === '/movies/saved');
+  const isOnMovies = (path === '/movies' || path === '/movies-saved');
 
   return (
     <>
