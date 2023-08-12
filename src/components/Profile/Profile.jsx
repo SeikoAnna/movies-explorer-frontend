@@ -31,7 +31,9 @@ export default function Profile() {
       setIsValid(false)
     } else {
       setErrors(errors)
-      setIsValid(true);
+      if(!errors.name && !errors.email) {
+        setIsValid(true);
+      }
     }
 
 
